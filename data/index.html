@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generate CSV File</title>
+</head>
+<body>
+	<button id="generate-csv">Generate CSV File</button>
+
+	<script>
+		function generateCSV() {
+			// Get output data (sample data used in this example)
+			var data = [
+				["Name", "Age", "Gender"],
+				["John", "25", "Male"],
+				["Jane", "30", "Female"],
+				["Bob", "35", "Male"]
+			];
+
+			// Convert data to CSV format
+			var csvContent = "data:text/csv;charset=utf-8,";
+			data.forEach(function(rowArray) {
+				var row = rowArray.join(",");
+				csvContent += row + "\r\n";
+			});
+
+			// Create a link to download the CSV file
+			var encodedUri = encodeURI(csvContent);
+			var link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", "output.csv");
+			document.body.appendChild(link);
+
+			// Click the link to download the file
+			link.click();
+		}
+
+		// Add event listener to button
+		var generateBtn = document.getElementById("generate-csv");
+		generateBtn.addEventListener("click", generateCSV);
+	</script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+    <!-- Include jQuery library -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Define variables -->
+    <script>
+        $(function() {
+            var url = "https://jsonplaceholder.typicode.com/posts";
+            var limit = 5;
+            var offset = 0;
+
+            // Define function to display posts
+            function displayPosts() {
+                $.getJSON(url + "?_start=" + offset + "&_limit=" + limit, function(data) 
+                {
+                    // Clear container before appending new data
+                    var container = $("#post-list");
+                    container.empty();
+
+                    // Loop through data and append to container
+                    $.each(data, function(index, post) {
+                        var item = $("<li>").text(post.title);
+                        container.append(item);
+                    });
+                });
+            }
+
+            // Display posts on page load
+            displayPosts();
+
+            // Handle click event for "Next Page" button
+            $("#next-page").on("click", function() {
+                offset += limit;
+                displayPosts();
+            });
+        });
+    </script>
+
+    <!-- Define styles -->
+    <style>
+        #post-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        #next-page {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Define HTML content -->
+    <ul id="post-list"></ul>
+    <button id="next-page">Next Page</button>
+</body>
+</html>

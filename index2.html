@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Photos</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(function() {
+			var url = "https://jsonplaceholder.typicode.com/photos";
+			var limit = 5;
+			var offset = 0;
+
+			function displayPhotos() {
+				if (offset < 0) {
+					offset = 0;
+				}
+
+				$.getJSON(url + "?_start=" + offset + "&_limit=" + limit, function(data) {
+					var container = $("#photo-list");
+					container.empty();
+					$.each(data, function(index, photo) {
+						var item = $("<li>");
+						var img = $("<img>").attr("src", photo.thumbnailUrl);
+						item.append(img);
+						container.append(item);
+					});
+				});
+			}
+
+			displayPhotos();
+
+			$("#next-page").on("click", function() {
+				offset += limit;
+				displayPhotos();
+			});
+
+			$("#prev-page").on("click", function() {
+				offset -= limit;
+				displayPhotos();
+			});
+		});
+	</script>
+	<style>
+		#photo-list {
+			list-style: none;
+			padding: 0;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		#photo-list li {
+			margin-right: 20px;
+			margin-bottom: 20px;
+		}
+
+		#pagination {
+			display: flex;
+			justify-content: center;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		#pagination button {
+			margin-right: 10px;
+			background-color: #f2f2f2;
+			border: none;
+			padding: 10px;
+			cursor: pointer;
+		}
+
+		#pagination button:hover {
+			background-color: #e6e6e6;
+		}
+	</style>
+</head>
+<body>
+	<ul id="photo-list"></ul>
+	<div id="pagination">
+		<button id="prev-page">Prev</button>
+		<button id="next-page">Next</button>
+	</div>
+</body>
+</html>
